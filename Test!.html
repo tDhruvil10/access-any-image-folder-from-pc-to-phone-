@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My PC Files</title>
+</head>
+<body>
+    <h1>Files:</h1>
+    <ul id="fileList"></ul>
+
+    <script>
+        const SERVER_IP = "192.168.29.188"; // Your PC's IP address
+        const API_URL = `http://${SERVER_IP}:5000/list/images`;  // Adjust the URL if needed
+
+        fetch(API_URL)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Server error");
+                }
+                return response.json();
+            })
+            .then(files => {
+                const fileList = document.getElementById('fileList');
+                fileList.innerHTML = ""; // Clear previous content
+
+                files.forEach(file => {
+                    const li = document.createElement('li');
+                    
+                    const showImageLink = `<a href="http://${SERVER_IP}:5000/image/${encodeURIComponent(file)}" target="_blank">Show Image</a>`;
+                    const downloadLink = `<a href="http://${SERVER_IP}:5000/download/${encodeURIComponent(file)}" target="_blank">Download Image</a>`;
+                    
+                    li.innerHTML = `
+                        <p>${file}</p>
+                        <button onclick="showOptions('${file}')">Options</button>
+                        <div id="options-${file}" style="display:none;">
+                            <p><a href="http://${SERVER_IP}:5000/image/${encodeURIComponent(file)}" target="_blank">Show Image</a></p>
+                            <p><a href="http://${SERVER_IP}:5000/download/${encodeURIComponent(file)}" target="_blank">Download Image</a></p>
+                        </div>
+                    `;
+                    fileList.appendChild(li);
+                });
+            })
+            .catch(error => {
+                const fileList = document.getElementById('fileList');
+                fileList.innerHTML = "<li>Failed to connect to server: " + error.message + "</li>";
+            });
+
+        function showOptions(fileName) {
+            const optionsDiv = document.getElementById(`options-${fileName}`);
+            if (optionsDiv.style.display === "none") {
+                optionsDiv.style.display = "block";
+            } else {
+                optionsDiv.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My PC Files</title>
+</head>
+<body>
+    <h1>Files:</h1>
+    <ul id="fileList"></ul>
+
+    <script>
+        const SERVER_IP = "192.168.29.188"; // Your PC's IP address
+        const API_URL = `http://${SERVER_IP}:5000/list/`;  // Adjust the URL if needed
+
+        fetch(API_URL)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Server error");
+                }
+                return response.json();
+            })
+            .then(files => {
+                const fileList = document.getElementById('fileList');
+                fileList.innerHTML = ""; // Clear previous content
+
+                files.forEach(file => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="http://${SERVER_IP}:5000/download/${encodeURIComponent(file)}" target="_blank">${file}</a>`;
+                    fileList.appendChild(li);
+                });
+            })
+            .catch(error => {
+                const fileList = document.getElementById('fileList');
+                fileList.innerHTML = "<li>Failed to connect to server: " + error.message + "</li>";
+            });
+    </script>
+</body>
+</html> -->
