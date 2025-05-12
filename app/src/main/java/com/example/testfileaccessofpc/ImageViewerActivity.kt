@@ -19,7 +19,7 @@ class ImageViewerActivity : AppCompatActivity() {
         // Load the image into the ImageView using Glide
         if (imageUrl != null) {
             Glide.with(this)
-                .load("http://192.168.29.188:5000/image/$imageUrl")
+                .load("http://192.168.0.0:0000/image/$imageUrl")
                 .into(imageView)
         }
     }

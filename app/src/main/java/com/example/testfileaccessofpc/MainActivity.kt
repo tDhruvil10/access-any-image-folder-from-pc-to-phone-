@@ -17,7 +17,7 @@ import org.json.JSONArray
 class MainActivity : AppCompatActivity() {
 
     private val client = OkHttpClient()
-    private val baseUrl = "http://192.168.29.188:5000/image"  // Base URL for images
+    private val baseUrl = "http://192.168.0.0:0000/image"  // Base URL for images
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 // Request image list from server
                 val request = Request.Builder()
-                    .url("http://192.168.29.188:5000/list/image/")
+                    .url("http://192.168.0.0:0000/list/image/")
                     .build()
 
                 val response = client.newCall(request).execute()
